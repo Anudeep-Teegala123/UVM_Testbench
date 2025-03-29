@@ -1,13 +1,12 @@
-class fifo_wr_rd_sequence #(parameter FIFO_DEPTH = 8, parameter DATA_WIDTH = 8) extends uvm_sequence#(fifo_transaction);
-  `uvm_object_utils(fifo_wr_rd_sequence) 
+class fifo_wr_rd_sequence #(parameter FIFO_DEPTH = 8, parameter DATA_WIDTH = 8) extends uvm_sequence#(fifo_transaction#(FIFO_DEPTH, DATA_WIDTH));
+  `uvm_object_utils(fifo_wr_rd_sequence#(FIFO_DEPTH, DATA_WIDTH)) 
 
   function new(string name="fifo_base_sequence");
     super.new(name);
   endfunction
   
-  fifo_transaction trans;
-  `uvm_declare_p_sequencer(fifo_sequencer) 
-  
+  fifo_transaction#(FIFO_DEPTH, DATA_WIDTH) trans;
+   
   virtual task body();
     `uvm_info("BASE_SEQ", "Running Body task of WR RD Sequence()", UVM_MEDIUM)
     // Write 3 values

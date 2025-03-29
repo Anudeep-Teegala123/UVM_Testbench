@@ -13,6 +13,10 @@
 `include "fifo_env.sv"
 `include "fifo_base_test.sv"
 `include "fifo_wr_rd_test.sv"
+`include "fifo_write_test.sv"
+`include "fifo_read_test.sv"
+`include "fifo_wr_rd_parallel_test.sv"
+`include "fifo_wr_then_rd_test.sv"
 
 module tb_top;	 
 	
@@ -41,9 +45,14 @@ module tb_top;
 	
 	initial begin
 		$display("Starting UVM Test.......");
-	  //run_test("fifo_base_test");
-      run_test("fifo_wr_rd_test");
+	    run_test("fifo_base_test");
+        //run_test("fifo_wr_rd_test");
+        //run_test("fifo_write_test");
+        //run_test("fifo_read_test");
+        //run_test("fifo_wr_then_rd_test");
+        //run_test("fifo_wr_rd_parallel_test");
 	end
+    
     initial begin 
         $dumpfile("dump.vcd"); 
         $dumpvars;

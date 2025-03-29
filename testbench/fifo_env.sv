@@ -1,5 +1,5 @@
 class fifo_env#(FIFO_DEPTH=8, DATA_WIDTH=8) extends uvm_env;
-	`uvm_component_utils(fifo_env);
+	`uvm_component_param_utils(fifo_env #(FIFO_DEPTH, DATA_WIDTH))
 
 	function new(string name="fifo_env", uvm_component parent=null);
 		super.new(name,parent);

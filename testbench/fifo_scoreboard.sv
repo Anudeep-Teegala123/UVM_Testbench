@@ -1,12 +1,12 @@
-class fifo_scoreboard #(parameter FIFO_DEPTH=8, parameter DATA_WIDTH=8) extends uvm_scoreboard;
-  `uvm_component_utils(fifo_scoreboard)
+class fifo_scoreboard #(parameter FIFO_DEPTH=8, parameter DATA_WIDTH=8) extends uvm_scoreboard; 
+  `uvm_component_param_utils(fifo_scoreboard #(FIFO_DEPTH, DATA_WIDTH))
 
-  uvm_analysis_imp #(fifo_transaction, fifo_scoreboard #(FIFO_DEPTH,DATA_WIDTH)) scb_analysis_port;
-  fifo_transaction item_queue[$:FIFO_DEPTH];
-  fifo_transaction trans;
+  uvm_analysis_imp #(fifo_transaction #(FIFO_DEPTH,DATA_WIDTH), fifo_scoreboard #(FIFO_DEPTH,DATA_WIDTH)) scb_analysis_port;
+  fifo_transaction#(FIFO_DEPTH,DATA_WIDTH) item_queue[$:FIFO_DEPTH];
+  fifo_transaction#(FIFO_DEPTH,DATA_WIDTH) trans;
   
   bit [DATA_WIDTH-1:0] mem[$];
-  bit [7:0] exp_data;
+  bit [DATA_WIDTH-1:0] exp_data;
   bit read_delay_clk;  // Delay flag
 
   function new(string name="fifo_scoreboard", uvm_component parent=null);
@@ -18,7 +18,7 @@ class fifo_scoreboard #(parameter FIFO_DEPTH=8, parameter DATA_WIDTH=8) extends 
     scb_analysis_port = new("scb_analysis_port", this);
   endfunction  
   
-  function void write(fifo_transaction item);
+  function void write(fifo_transaction#(FIFO_DEPTH,DATA_WIDTH) item);
     item_queue.push_back(item);
   endfunction  
   
@@ -47,7 +47,7 @@ class fifo_scoreboard #(parameter FIFO_DEPTH=8, parameter DATA_WIDTH=8) extends 
               `uvm_info("SCOREBOARD", $sformatf("Exp Data: %0d, Req data=%0d", exp_data, trans.data_out), UVM_MEDIUM)
             end
             else begin
-              `uvm_info("SCOREBOARD", $sformatf("------ ::  FAILED MATCH  :: ------"), UVM_MEDIUM)
+              `uvm_error("SCOREBOARD", $sformatf("------ ::  FAILED MATCH  :: ------"))
               `uvm_info("SCOREBOARD", $sformatf("Exp Data: %0d, Req data=%0d", exp_data, trans.data_out), UVM_MEDIUM)
             end
           end

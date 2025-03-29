@@ -1,6 +1,7 @@
-class fifo_driver extends uvm_driver #(fifo_transaction);
-	`uvm_component_utils(fifo_driver)	
+class fifo_driver#(parameter FIFO_DEPTH = 8, parameter DATA_WIDTH = 8) extends uvm_driver #(fifo_transaction#(FIFO_DEPTH, DATA_WIDTH));
+  `uvm_component_param_utils(fifo_driver#(FIFO_DEPTH, DATA_WIDTH))	
     virtual fifo_if vif;
+    fifo_transaction#(FIFO_DEPTH, DATA_WIDTH) req_item;
 	
 	function new(string name="fifo_driver",uvm_component parent=null);
 		super.new(name,parent);
@@ -18,7 +19,7 @@ class fifo_driver extends uvm_driver #(fifo_transaction);
 		$display("Starting UVM Driver Run phase...");
 		
 		forever begin
-			fifo_transaction req_item;
+          //fifo_transaction#(FIFO_DEPTH, DATA_WIDTH) req_item;
 			seq_item_port.get_next_item(req_item);
 			@(posedge vif.DRIVER.clk);
 			if(req_item.write) begin 

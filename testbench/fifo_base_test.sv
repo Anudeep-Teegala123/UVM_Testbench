@@ -1,17 +1,16 @@
 class fifo_base_test extends uvm_test;
 	`uvm_component_utils(fifo_base_test) 
 
-
 	function new(string name="fifo_base_test",uvm_component parent=null);
 		super.new(name,parent);
 	endfunction
 	
-	fifo_env#(8,8) env;
+    fifo_env#(16,16) env;
 	virtual fifo_if vif;
 	
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase); 
-		env = fifo_env#(8,8)::type_id::create("env",this);
+        env = fifo_env#(16,16)::type_id::create("env",this);
 		uvm_config_db#(virtual fifo_if)::set(this, "env", "vif", vif);
     
     	if(! uvm_config_db#(virtual fifo_if)::get(this, "", "vif", vif)) begin
